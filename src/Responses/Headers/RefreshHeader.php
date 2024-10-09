@@ -14,6 +14,11 @@ class RefreshHeader implements RubixHeader
     $this->_content = $content;
   }
 
+  public static function i(string $content): self
+  {
+    return new self($content);
+  }
+
   public function name(): string
   {
     return Headers::ResponseRefresh;

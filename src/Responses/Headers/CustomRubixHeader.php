@@ -15,6 +15,11 @@ class CustomRubixHeader implements RubixHeader
     $this->_message = $message;
   }
 
+  public static function i(string $name, string $message = ""): self
+  {
+    return new self($name, $message);
+  }
+
   public function name(): string
   {
     return $this->_name;

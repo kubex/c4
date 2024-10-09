@@ -13,6 +13,11 @@ class ForwardUrlHeader implements RubixHeader
     $this->_uri = $uri;
   }
 
+  public static function i(string $uri): self
+  {
+    return new self($uri);
+  }
+
   public function name(): string
   {
     return 'x-kubex-forward-uri';
