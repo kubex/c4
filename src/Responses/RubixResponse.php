@@ -9,7 +9,7 @@ class RubixResponse
   protected array $_headers = [];
   protected string $_content = '';
 
-  private function __construct(protected $_statusCode = 304) { }
+  private function __construct(protected int $_statusCode = 304) { }
 
   public static function i(int $statusCode = 304): RubixResponse
   {
@@ -29,6 +29,7 @@ class RubixResponse
 
   public function setContent(string $content): static
   {
+    $this->_statusCode = 200; // Change the status code to 200 from 304 if we're setting content
     $this->_content = $content;
     return $this;
   }
