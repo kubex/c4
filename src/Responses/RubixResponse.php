@@ -18,9 +18,9 @@ class RubixResponse extends Response
     return $i;
   }
 
-  public function setContent($content): self
+  public function setContent(?string $content): static
   {
-    $this->setStatusCode(200); // Change the status code to 200 from 304 if we're setting content
+    $this->setStatusCode(200);
     return parent::setContent($content);
   }
 }
