@@ -12,7 +12,7 @@ class CloseModalHeaderTest extends TestCase
   {
     $header = CloseModalHeader::i();
 
-    $this->assertEquals(Headers::ResponseCloseModal, $header->name());
-    $this->assertEquals('true', $header->content());
+    $this->assertEquals(Headers::ResponseCloseModal, $header->getKey());
+    $this->assertEquals('true', $header->getValue());
   }
 }

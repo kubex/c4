@@ -2,10 +2,10 @@
 
 namespace Kubex\C4\Responses\Headers;
 
-use Kubex\C4\Responses\RubixHeader;
 use Kubex\Definitions\Headers;
+use Packaged\Http\Headers\Header;
 
-class AlertHeader implements RubixHeader
+class AlertHeader implements Header
 {
   protected string $_name = Headers::ResponseAlertInfo;
   protected string $_message = "";
@@ -36,12 +36,12 @@ class AlertHeader implements RubixHeader
     return new self(Headers::ResponseAlertSuccess, $message);
   }
 
-  public function name(): string
+  public function getKey(): string
   {
     return $this->_name;
   }
 
-  public function content(): string
+  public function getValue(): string
   {
     return $this->_message;
   }

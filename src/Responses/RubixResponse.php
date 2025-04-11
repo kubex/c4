@@ -4,43 +4,23 @@ namespace Kubex\C4\Responses;
 
 use Packaged\Http\Response;
 
-class RubixResponse
+class RubixResponse extends Response
 {
-  protected array $_headers = [];
-  protected string $_content = '';
-
-  private function __construct(protected int $_statusCode = 304) { }
-
-  public static function i(int $statusCode = 304): RubixResponse
+  public function __construct($content = '', int $status = 304, array $headers = [])
   {
-    return new self($statusCode);
+    parent::__construct($content, $status, $headers);
   }
 
-  public function send(): Response
+  public static function i(int $statusCode = 304): self
   {
-    return Response::create($this->_content, $this->_statusCode, $this->_getHeaders());
+    $i = new self();
+    $i->setStatusCode($statusCode);
+    return $i;
   }
 
-  public function addHeader(RubixHeader $header): static
+  public function setContent($content): self
   {
-    $this->_headers[] = $header;
-    return $this;
-  }
-
-  public function setContent(string $content): static
-  {
-    $this->_statusCode = 200; // Change the status code to 200 from 304 if we're setting content
-    $this->_content = $content;
-    return $this;
-  }
-
-  protected function _getHeaders(): array
-  {
-    $headers = [];
-    foreach($this->_headers as $header)
-    {
-      $headers[$header->name()] = $header->content();
-    }
-    return $headers;
+    $this->setStatusCode(200); // Change the status code to 200 from 304 if we're setting content
+    return parent::setContent($content);
   }
 }
