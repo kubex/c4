@@ -2,10 +2,10 @@
 
 namespace Kubex\C4\Responses\Headers;
 
-use Kubex\C4\Responses\RubixHeader;
 use Kubex\Definitions\Headers;
+use Packaged\Http\Headers\Header;
 
-class RefreshHeader implements RubixHeader
+class RefreshHeader implements Header
 {
   protected string $_content;
 
@@ -19,12 +19,12 @@ class RefreshHeader implements RubixHeader
     return new self($content);
   }
 
-  public function name(): string
+  public function getKey(): string
   {
     return Headers::ResponseRefresh;
   }
 
-  public function content(): string
+  public function getValue(): string
   {
     return $this->_content;
   }

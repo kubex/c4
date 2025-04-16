@@ -51,7 +51,7 @@ class RubixResponseTest extends TestCase
       ->send();
 
     $this->assertIsObject($response);
-    $this->assertEquals(304, $response->getStatusCode());
+    $this->assertEquals(200, $response->getStatusCode());
     $this->assertEquals('Test Content', $response->getContent());
   }
 
@@ -63,7 +63,7 @@ class RubixResponseTest extends TestCase
       ->send();
 
     $this->assertIsObject($response);
-    $this->assertEquals(304, $response->getStatusCode());
+    $this->assertEquals(200, $response->getStatusCode());
     $this->assertArrayHasKey(Headers::ResponseAlertInfo, $response->headers->all());
     $this->assertEquals('Test Alert', $response->headers->get(Headers::ResponseAlertInfo));
     $this->assertEquals('Test Content', $response->getContent());

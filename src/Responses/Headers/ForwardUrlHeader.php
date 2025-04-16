@@ -2,9 +2,9 @@
 
 namespace Kubex\C4\Responses\Headers;
 
-use Kubex\C4\Responses\RubixHeader;
+use Packaged\Http\Headers\Header;
 
-class ForwardUrlHeader implements RubixHeader
+class ForwardUrlHeader implements Header
 {
   protected string $_uri;
 
@@ -18,12 +18,12 @@ class ForwardUrlHeader implements RubixHeader
     return new self($uri);
   }
 
-  public function name(): string
+  public function getKey(): string
   {
     return 'x-kubex-forward-uri';
   }
 
-  public function content(): string
+  public function getValue(): string
   {
     return $this->_uri;
   }
