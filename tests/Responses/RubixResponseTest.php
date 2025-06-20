@@ -2,17 +2,18 @@
 
 namespace Kubex\C4\Tests\Responses;
 
+use Kubex\C4\Responses\EmptyResponse;
 use Kubex\C4\Responses\Headers\AlertHeader;
 use Kubex\C4\Responses\Headers\CloseModalHeader;
-use Kubex\C4\Responses\RubixResponse;
 use Kubex\Definitions\Headers;
+use Packaged\Http\Response;
 use PHPUnit\Framework\TestCase;
 
 class RubixResponseTest extends TestCase
 {
   public function testSend(): void
   {
-    $response = RubixResponse::i()->send();
+    $response = EmptyResponse::create();
 
     $this->assertIsObject($response);
     $this->assertEquals(304, $response->getStatusCode());
@@ -21,9 +22,8 @@ class RubixResponseTest extends TestCase
   public function testAddHeader(): void
   {
     // Test setting a single header
-    $response = RubixResponse::i()
-      ->addHeader(AlertHeader::info('Test Alert'))
-      ->send();
+    $response = EmptyResponse::create()
+      ->addHeader(AlertHeader::info('Test Alert'));
 
     $this->assertIsObject($response);
     $this->assertEquals(304, $response->getStatusCode());
@@ -31,10 +31,9 @@ class RubixResponseTest extends TestCase
     $this->assertEquals('Test Alert', $response->headers->get(Headers::ResponseAlertInfo));
 
     // Test setting multiple headers
-    $response = RubixResponse::i()
+    $response = EmptyResponse::create()
       ->addHeader(AlertHeader::success('Test Alert Success'))
-      ->addHeader(CloseModalHeader::i())
-      ->send();
+      ->addHeader(CloseModalHeader::i());
 
     $this->assertIsObject($response);
     $this->assertEquals(304, $response->getStatusCode());
@@ -46,24 +45,22 @@ class RubixResponseTest extends TestCase
 
   public function testSetContent(): void
   {
-    $response = RubixResponse::i()
-      ->setContent('Test Content')
-      ->send();
+    $response = Response::create()
+      ->setContent('Test Content');
 
     $this->assertIsObject($response);
-    $this->assertEquals(304, $response->getStatusCode());
+    $this->assertEquals(200, $response->getStatusCode());
     $this->assertEquals('Test Content', $response->getContent());
   }
 
   public function testSetHeaderAndContent(): void
   {
-    $response = RubixResponse::i()
+    $response = Response::create()
       ->addHeader(AlertHeader::info('Test Alert'))
-      ->setContent('Test Content')
-      ->send();
+      ->setContent('Test Content');
 
     $this->assertIsObject($response);
-    $this->assertEquals(304, $response->getStatusCode());
+    $this->assertEquals(200, $response->getStatusCode());
     $this->assertArrayHasKey(Headers::ResponseAlertInfo, $response->headers->all());
     $this->assertEquals('Test Alert', $response->headers->get(Headers::ResponseAlertInfo));
     $this->assertEquals('Test Content', $response->getContent());
@@ -71,12 +68,12 @@ class RubixResponseTest extends TestCase
 
   public function testSetStatusCode(): void
   {
-    $response = RubixResponse::i(200)->send();
+    $response = EmptyResponse::create(null, 200);
 
     $this->assertIsObject($response);
     $this->assertEquals(200, $response->getStatusCode());
 
-    $response = RubixResponse::i(404)->send();
+    $response = EmptyResponse::create(null, 404);
 
     $this->assertIsObject($response);
     $this->assertEquals(404, $response->getStatusCode());

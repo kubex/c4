@@ -2,9 +2,9 @@
 
 namespace Kubex\C4\Responses\Headers;
 
-use Kubex\C4\Responses\RubixHeader;
+use Packaged\Http\Headers\Header;
 
-class CustomRubixHeader implements RubixHeader
+class CustomRubixHeader implements Header
 {
   protected string $_name;
   protected string $_message;
@@ -20,12 +20,12 @@ class CustomRubixHeader implements RubixHeader
     return new self($name, $message);
   }
 
-  public function name(): string
+  public function getKey(): string
   {
     return $this->_name;
   }
 
-  public function content(): string
+  public function getValue(): string
   {
     return $this->_message;
   }

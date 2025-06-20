@@ -2,10 +2,10 @@
 
 namespace Kubex\C4\Responses\Headers;
 
-use Kubex\C4\Responses\RubixHeader;
 use Kubex\Definitions\Headers;
+use Packaged\Http\Headers\Header;
 
-class CloseModalHeader implements RubixHeader
+class CloseModalHeader implements Header
 {
   private function __construct() { }
 
@@ -14,12 +14,12 @@ class CloseModalHeader implements RubixHeader
     return new self();
   }
 
-  public function name(): string
+  public function getKey(): string
   {
     return Headers::ResponseCloseModal;
   }
 
-  public function content(): string
+  public function getValue(): string
   {
     return 'true';
   }
