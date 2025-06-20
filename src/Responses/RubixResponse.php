@@ -4,6 +4,14 @@ namespace Kubex\C4\Responses;
 
 use Packaged\Http\Response;
 
+/**
+ * Class RubixResponse
+ * A response class for handling Rubix-specific responses.
+ * It extends the base Response class and provides additional functionality.
+ * Default status code is set to 304 (Not Modified).
+ *
+ * @package Kubex\C4\Responses
+ */
 class RubixResponse extends Response
 {
   public function __construct($content = '', int $status = 304, array $headers = [])
@@ -11,11 +19,9 @@ class RubixResponse extends Response
     parent::__construct($content, $status, $headers);
   }
 
-  public static function i(int $statusCode = 304): self
+  public static function create(?string $content = '', int $status = 304, array $headers = []): static
   {
-    $i = new self();
-    $i->setStatusCode($statusCode);
-    return $i;
+    return parent::create($content, $status, $headers);
   }
 
   public function setContent(?string $content): static

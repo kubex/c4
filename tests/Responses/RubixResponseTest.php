@@ -12,7 +12,7 @@ class RubixResponseTest extends TestCase
 {
   public function testSend(): void
   {
-    $response = RubixResponse::i()->send();
+    $response = RubixResponse::create();
 
     $this->assertIsObject($response);
     $this->assertEquals(304, $response->getStatusCode());
@@ -21,9 +21,8 @@ class RubixResponseTest extends TestCase
   public function testAddHeader(): void
   {
     // Test setting a single header
-    $response = RubixResponse::i()
-      ->addHeader(AlertHeader::info('Test Alert'))
-      ->send();
+    $response = RubixResponse::create()
+      ->addHeader(AlertHeader::info('Test Alert'));
 
     $this->assertIsObject($response);
     $this->assertEquals(304, $response->getStatusCode());
@@ -31,10 +30,9 @@ class RubixResponseTest extends TestCase
     $this->assertEquals('Test Alert', $response->headers->get(Headers::ResponseAlertInfo));
 
     // Test setting multiple headers
-    $response = RubixResponse::i()
+    $response = RubixResponse::create()
       ->addHeader(AlertHeader::success('Test Alert Success'))
-      ->addHeader(CloseModalHeader::i())
-      ->send();
+      ->addHeader(CloseModalHeader::i());
 
     $this->assertIsObject($response);
     $this->assertEquals(304, $response->getStatusCode());
@@ -46,9 +44,8 @@ class RubixResponseTest extends TestCase
 
   public function testSetContent(): void
   {
-    $response = RubixResponse::i()
-      ->setContent('Test Content')
-      ->send();
+    $response = RubixResponse::create()
+      ->setContent('Test Content');
 
     $this->assertIsObject($response);
     $this->assertEquals(200, $response->getStatusCode());
@@ -57,10 +54,9 @@ class RubixResponseTest extends TestCase
 
   public function testSetHeaderAndContent(): void
   {
-    $response = RubixResponse::i()
+    $response = RubixResponse::create()
       ->addHeader(AlertHeader::info('Test Alert'))
-      ->setContent('Test Content')
-      ->send();
+      ->setContent('Test Content');
 
     $this->assertIsObject($response);
     $this->assertEquals(200, $response->getStatusCode());
@@ -71,12 +67,12 @@ class RubixResponseTest extends TestCase
 
   public function testSetStatusCode(): void
   {
-    $response = RubixResponse::i(200)->send();
+    $response = RubixResponse::create(null, 200);
 
     $this->assertIsObject($response);
     $this->assertEquals(200, $response->getStatusCode());
 
-    $response = RubixResponse::i(404)->send();
+    $response = RubixResponse::create(null, 404);
 
     $this->assertIsObject($response);
     $this->assertEquals(404, $response->getStatusCode());
