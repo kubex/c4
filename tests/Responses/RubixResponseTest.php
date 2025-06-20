@@ -2,17 +2,18 @@
 
 namespace Kubex\C4\Tests\Responses;
 
+use Kubex\C4\Responses\EmptyResponse;
 use Kubex\C4\Responses\Headers\AlertHeader;
 use Kubex\C4\Responses\Headers\CloseModalHeader;
-use Kubex\C4\Responses\RubixResponse;
 use Kubex\Definitions\Headers;
+use Packaged\Http\Response;
 use PHPUnit\Framework\TestCase;
 
 class RubixResponseTest extends TestCase
 {
   public function testSend(): void
   {
-    $response = RubixResponse::create();
+    $response = EmptyResponse::create();
 
     $this->assertIsObject($response);
     $this->assertEquals(304, $response->getStatusCode());
@@ -21,7 +22,7 @@ class RubixResponseTest extends TestCase
   public function testAddHeader(): void
   {
     // Test setting a single header
-    $response = RubixResponse::create()
+    $response = EmptyResponse::create()
       ->addHeader(AlertHeader::info('Test Alert'));
 
     $this->assertIsObject($response);
@@ -30,7 +31,7 @@ class RubixResponseTest extends TestCase
     $this->assertEquals('Test Alert', $response->headers->get(Headers::ResponseAlertInfo));
 
     // Test setting multiple headers
-    $response = RubixResponse::create()
+    $response = EmptyResponse::create()
       ->addHeader(AlertHeader::success('Test Alert Success'))
       ->addHeader(CloseModalHeader::i());
 
@@ -44,7 +45,7 @@ class RubixResponseTest extends TestCase
 
   public function testSetContent(): void
   {
-    $response = RubixResponse::create()
+    $response = Response::create()
       ->setContent('Test Content');
 
     $this->assertIsObject($response);
@@ -54,7 +55,7 @@ class RubixResponseTest extends TestCase
 
   public function testSetHeaderAndContent(): void
   {
-    $response = RubixResponse::create()
+    $response = Response::create()
       ->addHeader(AlertHeader::info('Test Alert'))
       ->setContent('Test Content');
 
@@ -67,12 +68,12 @@ class RubixResponseTest extends TestCase
 
   public function testSetStatusCode(): void
   {
-    $response = RubixResponse::create(null, 200);
+    $response = EmptyResponse::create(null, 200);
 
     $this->assertIsObject($response);
     $this->assertEquals(200, $response->getStatusCode());
 
-    $response = RubixResponse::create(null, 404);
+    $response = EmptyResponse::create(null, 404);
 
     $this->assertIsObject($response);
     $this->assertEquals(404, $response->getStatusCode());
