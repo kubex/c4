@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f56b87d02ffea0511cf1072165dfd21",
+    "content-hash": "eab55b424ea2e8d04826cda09285f30d",
     "packages": [
         {
             "name": "cubex/framework",
