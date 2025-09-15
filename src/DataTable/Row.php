@@ -2,17 +2,20 @@
 
 namespace Kubex\C4\DataTable;
 
+use Kubex\C4\DataTable\Cell\Cell;
+
 class Row
 {
   /** @var Cell[] $_cells */
   protected array $_cells = [];
   /** @var Action[] $_actions */
   protected array $_actions = [];
-  protected array $_properties = [];
+  protected string $_uri = '';
+  protected string $_target = '';
+  protected string $_gaid = '';
 
-  public function __construct(protected string $id)
+  public function __construct(protected string $_id)
   {
-    $this->_properties['id'] = $this->id;
   }
 
   public static function i(string $id): static
@@ -20,55 +23,64 @@ class Row
     return new static($id);
   }
 
-  /**
-   * @param Cell[] $cells
-   */
-  public function cells(array $cells): static
+  public function addCell(Cell $cell): static
   {
-    $this->_cells = $cells;
+    $this->_cells[] = $cell;
     return $this;
   }
 
-  /**
-   * @param Action[] $actions
-   */
-  public function actions(array $actions): static
+  public function addAction(Action $action): static
   {
-    $this->_actions = $actions;
+    $this->_actions[] = $action;
     return $this;
   }
 
   public function uri(string $uri): static
   {
-    $this->_properties['uri'] = $uri;
+    $this->_uri = $uri;
     return $this;
   }
 
   public function target(string $target): static
   {
-    $this->_properties['target'] = $target;
+    $this->_target = $target;
     return $this;
   }
 
   public function gaid(string $gaid): static
   {
-    $this->_properties['gaid'] = $gaid;
+    $this->_gaid = $gaid;
     return $this;
   }
 
-  public function toArray(): array
+  public function serialize(): array
   {
-    $row = $this->_properties;
+    $row = [
+      'id' => $this->_id,
+    ];
+
+    if($this->_uri)
+    {
+      $row['uri'] = $this->_uri;
+    }
+    if($this->_target)
+    {
+      $row['target'] = $this->_target;
+    }
+    if($this->_gaid)
+    {
+      $row['gaid'] = $this->_gaid;
+    }
 
     foreach($this->_cells as $cell)
     {
-      $cells[] = $cell->toArray();
+      $cells[] = $cell->serialize();
     }
     $row['cells'] = $cells ?? [];
 
     foreach($this->_actions as $action)
     {
-      $actions[] = $action->toArray();
+      $actions[] = $action->serialize();
     }
     $row['actions'] = $actions ?? [];
 

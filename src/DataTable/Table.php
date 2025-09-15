@@ -5,11 +5,19 @@ namespace Kubex\C4\DataTable;
 class Table
 {
   /** @var Row[] $_rows */
-  public function __construct(protected array $_rows) { }
+  protected array $_rows = [];
 
-  public static function i(array $rows): static
+  public function __construct() { }
+
+  public static function i(): static
   {
-    return new static($rows);
+    return new static();
+  }
+
+  public function addRow(Row $row): static
+  {
+    $this->_rows[] = $row;
+    return $this;
   }
 
   public function toArray(): array
@@ -17,8 +25,8 @@ class Table
     $rows = [];
     foreach($this->_rows as $row)
     {
-      $rows[] = $row->toArray();
+      $rows[] = $row->serialize();
     }
-    return ['data' => $rows];
+    return ['rows' => $rows];
   }
 }

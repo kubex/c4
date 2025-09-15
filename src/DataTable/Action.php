@@ -4,12 +4,11 @@ namespace Kubex\C4\DataTable;
 
 class Action
 {
-  protected array $_properties = [];
+  protected ?string $_target = null;
+  protected ?string $_gaid = null;
 
-  public function __construct(string $text, string $uri)
+  public function __construct(protected string $_text, protected string $_uri)
   {
-    $this->_properties['text'] = $text;
-    $this->_properties['uri'] = $uri;
   }
 
   public static function i(string $text, string $uri): static
@@ -17,20 +16,32 @@ class Action
     return new static($text, $uri);
   }
 
-  public function target(?string $target): static
+  public function target(string $target): static
   {
-    $this->_properties['target'] = $target;
+    $this->_target = $target;
     return $this;
   }
 
-  public function gaid(?string $gaid): static
+  public function gaid(string $gaid): static
   {
-    $this->_properties['gaid'] = $gaid;
+    $this->_gaid = $gaid;
     return $this;
   }
 
-  public function toArray(): array
+  public function serialize(): array
   {
-    return $this->_properties;
+    $action = [
+      'text' => $this->_text,
+      'uri'  => $this->_uri,
+    ];
+    if($this->_target)
+    {
+      $action['target'] = $this->_target;
+    }
+    if($this->_gaid)
+    {
+      $action['gaid'] = $this->_gaid;
+    }
+    return $action;
   }
 }

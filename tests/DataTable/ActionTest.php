@@ -15,7 +15,7 @@ class ActionTest extends TestCase
     $this->assertEquals([
       'text' => $text,
       'uri'  => $uri,
-    ], $action->toArray());
+    ], $action->serialize());
   }
 
   public function testTarget()
@@ -28,7 +28,7 @@ class ActionTest extends TestCase
       'text'   => $text,
       'uri'    => $uri,
       'target' => $target,
-    ], $action->toArray());
+    ], $action->serialize());
   }
 
   public function testGaid()
@@ -41,7 +41,7 @@ class ActionTest extends TestCase
       'text' => $text,
       'uri'  => $uri,
       'gaid' => $gaid,
-    ], $action->toArray());
+    ], $action->serialize());
   }
 
   public function testAction()
@@ -51,12 +51,11 @@ class ActionTest extends TestCase
     $gaid = '/uri/gaid/2';
     $target = 'modal';
     $action = Action::i($text, $uri)->target($target)->gaid($gaid);
-
     $this->assertEquals([
       'text'   => $text,
       'uri'    => $uri,
       'target' => $target,
       'gaid'   => $gaid,
-    ], $action->toArray());
+    ], $action->serialize());
   }
 }

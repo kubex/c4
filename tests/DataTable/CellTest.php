@@ -2,7 +2,9 @@
 
 namespace Kubex\C4\Tests\DataTable;
 
-use Kubex\C4\DataTable\Cell;
+use Kubex\C4\DataTable\Cell\Cell;
+use Kubex\C4\DataTable\Cell\Elements\Hover;
+use Kubex\C4\DataTable\Cell\Elements\Icon;
 use PHPUnit\Framework\TestCase;
 
 class CellTest extends TestCase
@@ -10,108 +12,139 @@ class CellTest extends TestCase
   public function testText()
   {
     $text = 'Instantiation Test';
-    $cell = Cell::i($text);
-    $this->assertEquals(['text' => $text], $cell->toArray());
-  }
-
-  public function testHeading()
-  {
-    $text = 'Test';
     $heading = 'Title';
-    $cell = Cell::i($text)->heading($heading);
-    $this->assertEquals(['text' => $text, 'heading' => $heading], $cell->toArray());
+    $cell = Cell::i($text, $heading);
+    $this->assertEquals([
+      'text'    => $text,
+      'heading' => $heading,
+    ], $cell->serialize());
   }
 
   public function testColor()
   {
     $text = 'Test';
+    $heading = 'Title';
     $color = 'primary';
-    $cell = Cell::i($text)->color($color);
-    $this->assertEquals(['text' => $text, 'color' => $color], $cell->toArray());
+    $cell = Cell::i($text, $heading)->color($color);
+    $this->assertEquals([
+      'text'    => $text,
+      'heading' => $heading,
+      'color'   => $color,
+    ], $cell->serialize());
   }
 
   public function testGaid()
   {
     $text = 'Test';
+    $heading = 'Title';
     $gaid = '/uri/gaid';
-    $cell = Cell::i($text)->gaid($gaid);
-    $this->assertEquals(['text' => $text, 'gaid' => $gaid], $cell->toArray());
+    $cell = Cell::i($text, $heading)->gaid($gaid);
+    $this->assertEquals([
+      'text'    => $text,
+      'heading' => $heading,
+      'gaid'    => $gaid,
+    ], $cell->serialize());
   }
 
   public function testHover()
   {
     $text = 'Test';
+    $heading = 'Title';
+
     $content = 'Hover Content';
-    $position = 'Left';
-    $cell = Cell::i($text)->hover($content, $position);
+    $position = 'left';
+    $hover = Hover::i($content)->position($position);
+
+    $cell = Cell::i($text, $heading)->hover($hover);
     $this->assertEquals([
-      'text'  => $text,
-      'hover' => [
+      'text'    => $text,
+      'heading' => $heading,
+      'hover'   => [
         'content'  => $content,
         'position' => $position,
       ],
-    ], $cell->toArray());
+    ], $cell->serialize());
   }
 
   public function testUri()
   {
     $text = 'Test';
+    $heading = 'Title';
     $uri = 'uri/link';
-    $cell = Cell::i($text)->uri($uri);
-    $this->assertEquals(['text' => $text, 'uri' => $uri], $cell->toArray());
+    $cell = Cell::i($text, $heading)->uri($uri);
+    $this->assertEquals([
+      'text'    => $text,
+      'heading' => $heading,
+      'uri'     => $uri,
+    ], $cell->serialize());
   }
 
   public function testStyle()
   {
     $text = 'Test';
+    $heading = 'Title';
     $style = 'primary';
-    $cell = Cell::i($text)->style($style);
-    $this->assertEquals(['text' => $text, 'style' => $style], $cell->toArray());
+    $cell = Cell::i($text, $heading)->style($style);
+    $this->assertEquals([
+      'text'    => $text,
+      'heading' => $heading,
+      'style'   => $style,
+    ], $cell->serialize());
   }
 
   public function testSortValue()
   {
-    $text = 'Int Test';
-    $sortValue = 1234;
-    $cell = Cell::i($text)->sortValue($sortValue);
-    $this->assertEquals(['text' => $text, 'sortValue' => $sortValue], $cell->toArray());
-
-    $text = 'String Test';
+    $text = 'Test';
+    $heading = 'Title';
     $sortValue = '1234';
-    $cell = Cell::i($text)->sortValue($sortValue);
-    $this->assertEquals(['text' => $text, 'sortValue' => $sortValue], $cell->toArray());
+    $cell = Cell::i($text, $heading)->sortValue($sortValue);
+    $this->assertEquals([
+      'text'      => $text,
+      'heading'   => $heading,
+      'sortValue' => $sortValue,
+    ], $cell->serialize());
   }
 
   public function testIcon()
   {
     $text = 'Default Icon Values';
+    $heading = 'Default Title';
+
     $src = 'check';
-    $cell = Cell::i($text)->icon($src);
+    $icon = Icon::i($src);
+
+    $cell = Cell::i($text, $heading)->icon($icon);
     $this->assertEquals([
-      'text' => $text,
-      'icon' => [
+      'text'    => $text,
+      'heading' => $heading,
+      'icon'    => [
         'src'      => $src,
         'size'     => '16',
-        'color'    => null,
+        'color'    => 'default',
         'position' => 'left',
       ],
-    ], $cell->toArray());
+    ], $cell->serialize());
 
     $text = 'Custom Icon Values';
+    $heading = 'Custom Title';
+
     $src = 'cancel';
     $size = '20';
     $color = 'primary';
     $position = 'right';
-    $cell = Cell::i($text)->icon($src, $size, $color, $position);
+    $icon = Icon::i($src)->size($size)->color($color)->position($position);
+
+    $cell = Cell::i($text, $heading)->icon($icon);
     $this->assertEquals([
-      'text' => $text,
-      'icon' => [
+      'text'    => $text,
+      'heading' => $heading,
+      'icon'    => [
         'src'      => $src,
         'size'     => $size,
         'color'    => $color,
         'position' => $position,
       ],
-    ], $cell->toArray());
+    ], $cell->serialize());
   }
 
   /**
@@ -123,21 +156,25 @@ class CellTest extends TestCase
     $heading = 'Title';
     $color = 'primary';
     $style = 'bold';
+
     $iconSrc = 'check';
     $iconSize = '20';
     $iconColor = 'primary';
     $iconPosition = 'right';
+    $icon = Icon::i($iconSrc)->size($iconSize)->color($iconColor)->position($iconPosition);
+
     $hoverContent = 'Hover Content';
     $hoverPosition = 'left';
+    $hover = Hover::i($hoverContent)->position($hoverPosition);
+
     $gaid = '/uri/gaid';
     $sortValue = 1234;
     $uri = 'uri/link';
-    $cell = Cell::i($text)
-      ->heading($heading)
+    $cell = Cell::i($text, $heading)
       ->color($color)
       ->style($style)
-      ->icon($iconSrc, $iconSize, $iconColor, $iconPosition)
-      ->hover($hoverContent, $hoverPosition)
+      ->icon($icon)
+      ->hover($hover)
       ->gaid($gaid)
       ->sortValue($sortValue)
       ->uri($uri);
@@ -159,6 +196,6 @@ class CellTest extends TestCase
       'gaid'      => $gaid,
       'sortValue' => $sortValue,
       'uri'       => $uri,
-    ], $cell->toArray());
+    ], $cell->serialize());
   }
 }
