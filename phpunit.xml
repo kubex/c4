@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" bootstrap="vendor/autoload.php"
          colors="true" timeoutForSmallTests="5" timeoutForMediumTests="10" timeoutForLargeTests="15"
-         processIsolation="false" stopOnFailure="false"
+         processIsolation="false" stopOnFailure="false" failOnDeprecation="true" failOnPhpunitDeprecation="false" displayDetailsOnTestsThatTriggerDeprecations="true"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" cacheDirectory=".phpunit.cache">
   <testsuites>
     <testsuite name="Default Tests">
