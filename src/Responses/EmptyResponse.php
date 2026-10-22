@@ -11,7 +11,7 @@ class EmptyResponse extends Response
     parent::__construct($content, $status, $headers);
   }
 
-  public static function create(string $content = null, int $status = 304, array $headers = []): static
+  public static function create(?string $content = null, int $status = 304, array $headers = []): static
   {
     return parent::create($content, $status, $headers);
   }
